@@ -157,7 +157,7 @@ res:result
                 from: '"Simran Chauhan 👻" <thakursimrandeep@gmail.com>', // sender address
                 to: user.email, // list of receivers
                 subject: "Password Activated ✔", // Subject line
-                text: "Please click on this link"+link+ 'to reset password', // plain text body
+               text: "Please click on this link"+" "+link+" "+ 'to reset password', // plain text body
                
                 })
                 res.status(200).json({
