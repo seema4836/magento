@@ -170,5 +170,39 @@ res:result
 
 
     })
+
+
+
+// Reset password
+ router.post('/reset-password/:token',(req,res)=>{
+        const getToken=req.params.token
+        //console.warn(getToken)
+        const newPassword=req.body.password
+        User.findOne({resetToken:getToken,expireToken:{$gt:Date.now()}}).then(user=>{
+
+            if(!user){
+                return res.status(500).json({
+                    error:"Token time session is expired now"
+                })
+                
+            }
+            bcrypt.hash(newPassword,10,function(err,hash){
+
+                user.password=hash
+                user.resetToken=undefined
+                user.expireToken=undefined
+                user.save().then((result)=>{
+                    res.json({
+                        msg:"Password updated successfully"
+                    })
+                })
+            })
+
+        }).catch(err=>{
+            console.log(err)
+        })
+
+    })
+   
    
 module.exports=router;
